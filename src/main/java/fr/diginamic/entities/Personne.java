@@ -1,12 +1,29 @@
 package fr.diginamic.entities;
 
-import java.sql.Date;
+import java.util.Date;
 
-public class Personne {
-	int id_personne;
-	int id_imdb;
-	String identite;
-	Date ddn;
+import javax.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Personne {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_personne;
+
+    @Column(name = "id_imdb", unique = true, nullable = false)
+    private String id_imdb;
+
+    @Column(name = "identite", nullable = false)
+    private String identite;
+
+    @Column(name = "ddn")
+    private Date ddn;
+
+    @ManyToOne
+    @JoinColumn(name = "id_adresse")
+    private Adresse adresse;
+    
 	/** Constructeur
 	 * 
 	 */
