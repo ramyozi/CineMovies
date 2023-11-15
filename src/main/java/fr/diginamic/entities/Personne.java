@@ -19,10 +19,13 @@ public abstract class Personne {
 
     @Column(name = "ddn")
     private Date ddn;
+    
+    @Column(name = "url", unique = true, nullable = false)
+    private String url;
 
     @ManyToOne
-    @JoinColumn(name = "id_adresse")
-    private Adresse adresse;
+    @JoinColumn(name = "id_lieu_naissance")
+    private Adresse lieuNaissance;
     
 	/** Constructeur
 	 * 

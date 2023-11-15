@@ -38,8 +38,8 @@ public class Film {
     private String resume;
 
     @ManyToOne
-    @JoinColumn(name = "id_adresse")
-    private Adresse adresse;
+    @JoinColumn(name = "id_adresse_tournage")
+    private Adresse lieuDeTournage;
 
     @ManyToOne
     @JoinColumn(name = "id_pays")
@@ -174,14 +174,14 @@ public class Film {
 	 * @return the adresse
 	 */
 	public Adresse getAdresse() {
-		return adresse;
+		return lieuDeTournage;
 	}
 
 	/** Setter
 	 * @param adresse the adresse to set
 	 */
 	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
+		this.lieuDeTournage = adresse;
 	}
 
 	/** Getter

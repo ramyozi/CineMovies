@@ -1,6 +1,14 @@
 package fr.diginamic.entities;
 
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Adresse {
@@ -27,6 +35,10 @@ public class Adresse {
     @ManyToOne
     @JoinColumn(name = "id_batiment")
     private Batiment batiment;
+    
+    @OneToMany(mappedBy = "adresseDeTournage")
+    private List<Film> films;
+
 
 	/** Constructeur
 	 * 
