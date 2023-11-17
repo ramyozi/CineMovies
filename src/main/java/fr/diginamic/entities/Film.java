@@ -39,7 +39,7 @@ public class Film {
 	private String resume;
 
 	@ManyToOne
-	@JoinColumn(name = "id_pays")
+	@JoinColumn(name = "adresseTournage")
 	private Adresse lieuDeTournage;
 
 	@ManyToOne

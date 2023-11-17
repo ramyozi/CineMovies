@@ -129,7 +129,7 @@ public class LecteurData {
 		return film;
 	}
 
-	private List<Role> parseRoles(String filename) throws ParseException {
+	public List<Role> parseRoles(String filename) throws ParseException {
 
 		List<Role> data = new ArrayList<>();
 		ClassLoader cl = getClass().getClassLoader();
