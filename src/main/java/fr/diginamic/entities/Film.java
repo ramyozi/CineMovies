@@ -15,202 +15,291 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Film {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_film;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    @Column(name = "id_imdb", unique = true, nullable = false)
-    private String id_imdb;
+	@Column(name = "idImdb", unique = true)
+	private String idImdb;
 
-    @Column(name = "nom")
-    private String nom;
+	@Column(name = "nom")
+	private String nom;
 
-    @Column(name = "annee")
-    private String annee;
+	@Column(name = "annee")
+	private String annee;
 
-    @Column(name = "note")
-    private double note;
+	@Column(name = "note")
+	private double note;
 
-    @Column(name = "url", unique = true, nullable = false)
-    private String url;
+	@Column(name = "url", unique = true)
+	private String url;
 
-    @Column(name = "resume", length = 500)
-    private String resume;
+	@Column(name = "resume", length = 500)
+	private String resume;
 
-    @ManyToOne
-    @JoinColumn(name = "id_adresse_tournage")
-    private Adresse lieuDeTournage;
+	@ManyToOne
+	@JoinColumn(name = "id_pays")
+	private Pays paysDeSortie;
 
-    @ManyToOne
-    @JoinColumn(name = "id_pays")
-    private Pays pays;
+	@ManyToOne
+	@JoinColumn(name = "id_langue")
+	private Langue langue;
 
-    @ManyToOne
-    @JoinColumn(name = "id_langue")
-    private Langue langue;
+	@ManyToMany
+	@JoinTable(name = "FILM_GENRE", joinColumns = @JoinColumn(name = "ID_FILM", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_GENRE", referencedColumnName = "ID"))
+	private List<Genre> genres;
 
-    @ManyToMany
-    @JoinTable(
-        name = "appartenir",
-        joinColumns = @JoinColumn(name = "id_film"),
-        inverseJoinColumns = @JoinColumn(name = "id_genre")
-    )
-    private List<Genre> genres;
+	@OneToMany(mappedBy = "film")
+	private List<Role> roles;
 
-    @OneToMany(mappedBy = "film")
-    private List<Role> roles;
+	@ManyToMany
+	@JoinTable(name = "films_realisateurs", joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "id_realisateur", referencedColumnName = "ID"))
+	private List<Realisateur> realisateurs;
 
-    @ManyToMany(mappedBy = "filmsDiriges")
-    private List<Realisateur> realisateurs;
-    
-    @ManyToMany(mappedBy = "films")
-    private List<Acteur> acteursPrincipaux;
-	/** Constructeur
+	@ManyToMany
+	@JoinTable(name = "films_acteurs_principaux", joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "id_acteur", referencedColumnName = "ID"))
+	private List<Acteur> acteursPrincipaux;
+
+	/**
+	 * Constructeur
 	 * 
 	 */
 	public Film() {
 		super();
 	}
 
-	/** Getter
-	 * @return the id_film
-	 */
-	public int getId_film() {
-		return id_film;
-	}
-
-	/** Setter
-	 * @param id_film the id_film to set
-	 */
-	public void setId_film(int id_film) {
-		this.id_film = id_film;
-	}
-
-	/** Getter
-	 * @return the id_imdb
-	 */
-	public String getId_imdb() {
-		return id_imdb;
-	}
-
-	/** Setter
-	 * @param id_imdb the id_imdb to set
-	 */
-	public void setId_imdb(String id_imdb) {
-		this.id_imdb = id_imdb;
-	}
-
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the nom
 	 */
 	public String getNom() {
 		return nom;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param nom the nom to set
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the annee
 	 */
 	public String getAnnee() {
 		return annee;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param annee the annee to set
 	 */
 	public void setAnnee(String annee) {
 		this.annee = annee;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the note
 	 */
 	public double getNote() {
 		return note;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param note the note to set
 	 */
 	public void setNote(double note) {
 		this.note = note;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the url
 	 */
 	public String getUrl() {
 		return url;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param url the url to set
 	 */
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the resume
 	 */
 	public String getResume() {
 		return resume;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param resume the resume to set
 	 */
 	public void setResume(String resume) {
 		this.resume = resume;
 	}
 
-	/** Getter
-	 * @return the adresse
-	 */
-	public Adresse getAdresse() {
-		return lieuDeTournage;
-	}
-
-	/** Setter
-	 * @param adresse the adresse to set
-	 */
-	public void setAdresse(Adresse adresse) {
-		this.lieuDeTournage = adresse;
-	}
-
-	/** Getter
-	 * @return the pays
-	 */
-	public Pays getPays() {
-		return pays;
-	}
-
-	/** Setter
-	 * @param pays the pays to set
-	 */
-	public void setPays(Pays pays) {
-		this.pays = pays;
-	}
-
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the langue
 	 */
 	public Langue getLangue() {
 		return langue;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param langue the langue to set
 	 */
 	public void setLangue(Langue langue) {
 		this.langue = langue;
 	}
-    
-    
+
+	/**
+	 * Getter
+	 * 
+	 * @return the genres
+	 */
+	public List<Genre> getGenres() {
+		return genres;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param genres the genres to set
+	 */
+	public void setGenres(List<Genre> genres) {
+		this.genres = genres;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the roles
+	 */
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param roles the roles to set
+	 */
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the realisateurs
+	 */
+	public List<Realisateur> getRealisateurs() {
+		return realisateurs;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param realisateurs the realisateurs to set
+	 */
+	public void setRealisateurs(List<Realisateur> realisateurs) {
+		this.realisateurs = realisateurs;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the acteursPrincipaux
+	 */
+	public List<Acteur> getActeursPrincipaux() {
+		return acteursPrincipaux;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param acteursPrincipaux the acteursPrincipaux to set
+	 */
+	public void setActeursPrincipaux(List<Acteur> acteursPrincipaux) {
+		this.acteursPrincipaux = acteursPrincipaux;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the idImdb
+	 */
+	public String getIdImdb() {
+		return idImdb;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param idImdb the idImdb to set
+	 */
+	public void setIdImdb(String idImdb) {
+		this.idImdb = idImdb;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the paysDeSortie
+	 */
+	public Pays getPaysDeSortie() {
+		return paysDeSortie;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param paysDeSortie the paysDeSortie to set
+	 */
+	public void setPaysDeSortie(Pays paysDeSortie) {
+		this.paysDeSortie = paysDeSortie;
+	}
+
 }

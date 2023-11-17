@@ -1,135 +1,179 @@
 package fr.diginamic.entities;
 
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Adresse {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_adresse;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_pays")
-    private Pays pays;
+	@ManyToOne
+	@JoinColumn(name = "id_pays")
+	private String pays;
+	@Column(name = "departement")
+	private String departement;
 
-    @ManyToOne
-    @JoinColumn(name = "id_ville")
-    private Ville ville;
+	@Column(name = "ville")
+	private String ville;
 
-    @ManyToOne
-    @JoinColumn(name = "id_dep")
-    private Departement departement;
+	@Column(name = "quartier")
+	private String quartier;
 
-    @ManyToOne
-    @JoinColumn(name = "id_quartier")
-    private Quartier quartier;
+	@Column(name = "batiment")
+	private String batiment;
 
-    @ManyToOne
-    @JoinColumn(name = "id_batiment")
-    private Batiment batiment;
-    
-    @OneToMany(mappedBy = "adresseDeTournage")
-    private List<Film> films;
-
-
-	/** Constructeur
+	/**
+	 * Constructeur
 	 * 
 	 */
 	public Adresse() {
 		super();
+		this.pays = null;
+		this.departement = null;
+		this.ville = null;
+		this.quartier = null;
+		this.batiment = null;
 	}
 
-	/** Getter
-	 * @return the id_adresse
+	/** Constructeur
+	 * @param pays
+	 * @param departement
+	 * @param ville
+	 * @param quartier
+	 * @param batiment
 	 */
-	public int getId_adresse() {
-		return id_adresse;
-	}
-
-	/** Setter
-	 * @param id_adresse the id_adresse to set
-	 */
-	public void setId_adresse(int id_adresse) {
-		this.id_adresse = id_adresse;
-	}
-
-	/** Getter
-	 * @return the pays
-	 */
-	public Pays getPays() {
-		return pays;
-	}
-
-	/** Setter
-	 * @param pays the pays to set
-	 */
-	public void setPays(Pays pays) {
+	public Adresse(String pays, String departement, String ville,
+			String quartier, String batiment) {
+		super();
 		this.pays = pays;
+		this.departement = departement;
+		this.ville = ville;
+		this.quartier = quartier;
+		this.batiment = batiment;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Getter
+	 * 
 	 * @return the ville
 	 */
-	public Ville getVille() {
+	public String getVille() {
 		return ville;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param ville the ville to set
 	 */
-	public void setVille(Ville ville) {
+	public void setVille(String ville) {
 		this.ville = ville;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the departement
 	 */
-	public Departement getDepartement() {
+	public String getDepartement() {
 		return departement;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param departement the departement to set
 	 */
-	public void setDepartement(Departement departement) {
+	public void setDepartement(String departement) {
 		this.departement = departement;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the quartier
 	 */
-	public Quartier getQuartier() {
+	public String getQuartier() {
 		return quartier;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param quartier the quartier to set
 	 */
-	public void setQuartier(Quartier quartier) {
+	public void setQuartier(String quartier) {
 		this.quartier = quartier;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the batiment
 	 */
-	public Batiment getBatiment() {
+	public String getBatiment() {
 		return batiment;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param batiment the batiment to set
 	 */
-	public void setBatiment(Batiment batiment) {
+	public void setBatiment(String batiment) {
 		this.batiment = batiment;
 	}
-    
+
+	/**
+	 * Getter
+	 * 
+	 * @return the pays
+	 */
+	public String getPays() {
+		return pays;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param pays the pays to set
+	 */
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+
+	@Override
+	public String toString() {
+		return "Adresse [pays=" + this.pays + ", departement=" + departement
+				+ ", ville=" + ville + ", quartier=" + quartier
+				+ ", batiment=" + batiment + "]";
+	}
+
 	
+
 }

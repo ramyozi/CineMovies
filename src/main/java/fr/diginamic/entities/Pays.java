@@ -2,73 +2,115 @@ package fr.diginamic.entities;
 
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Pays {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_pays;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
 
-    @Column(name = "label", unique = true, nullable = false)
-    private String label;
-    
-    @OneToMany(mappedBy = "pays")
-    private List<Adresse> adresses;
+	@Column(unique = true)
+	String label;
 
-	
-	/** Constructeur
+	@Column(unique = true)
+	String url;
+
+	/**
+	 * Constructeur
 	 * 
 	 */
 	public Pays() {
 		super();
 	}
 
-
-	/** Getter
-	 * @return the id_pays
+	/**
+	 * Constructeur
+	 * 
+	 * @param label
+	 * @param url
 	 */
-	public int getId_pays() {
-		return id_pays;
+	public Pays(String label, String url) {
+		super();
+		this.label = label;
+		this.url = url;
 	}
 
-
-	/** Setter
-	 * @param id_pays the id_pays to set
-	 */
-	public void setId_pays(int id_pays) {
-		this.id_pays = id_pays;
+	public static Pays rechercheParNom(List<Pays> listPays, String nom) {
+		for (Pays p : listPays) {
+			if (p.getLabel().equals(nom)) {
+				return p;
+			}
+		}
+		return null;
 	}
 
+	public static boolean doesPaysAlreadyExist(List<Pays> listPays,
+			String nom) {
+		return listPays.stream().anyMatch(p -> p.getLabel().equals(nom));
+	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the label
 	 */
 	public String getLabel() {
 		return label;
 	}
 
-
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param label the label to set
 	 */
 	public void setLabel(String label) {
 		this.label = label;
 	}
 
-
-	/** Getter
-	 * @return the adresses
+	/**
+	 * Getter
+	 * 
+	 * @return the url
 	 */
-	public List<Adresse> getAdresses() {
-		return adresses;
+	public String getUrl() {
+		return url;
 	}
 
-
-	/** Setter
-	 * @param adresses the adresses to set
+	/**
+	 * Setter
+	 * 
+	 * @param url the url to set
 	 */
-	public void setAdresses(List<Adresse> adresses) {
-		this.adresses = adresses;
+	public void setUrl(String url) {
+		this.url = url;
 	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Pays: nom=" + label + ", url=" + url;
+	}
+
 }

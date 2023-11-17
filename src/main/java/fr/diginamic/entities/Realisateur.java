@@ -1,22 +1,16 @@
 package fr.diginamic.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 @Entity
-public class Realisateur {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id_realisateur;
+public class Realisateur extends Personne {
 
-    @ManyToMany
-    @JoinTable(
-        name = "diriger",
-        joinColumns = @JoinColumn(name = "id_realisateur"),
-        inverseJoinColumns = @JoinColumn(name = "id_film")
-    )
-    private List<Film> filmsDiriges;
+	@ManyToMany(mappedBy = "realisateurs")
+	private List<Film> filmsDiriges = new ArrayList<>();
 
 	/**
 	 * Constructeur
@@ -24,6 +18,26 @@ public class Realisateur {
 	 */
 	public Realisateur() {
 		super();
+	}
+
+
+
+	/**
+	 * Getter
+	 * 
+	 * @return the filmsDiriges
+	 */
+	public List<Film> getFilmsDiriges() {
+		return filmsDiriges;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param filmsDiriges the filmsDiriges to set
+	 */
+	public void setFilmsDiriges(List<Film> filmsDiriges) {
+		this.filmsDiriges = filmsDiriges;
 	}
 
 }
