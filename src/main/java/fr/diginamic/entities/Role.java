@@ -1,6 +1,7 @@
 package fr.diginamic.entities;
 
 import javax.persistence.*;
+
 @Entity
 public class Role {
 	@Id
@@ -18,15 +19,36 @@ public class Role {
 	@JoinColumn(name = "id_film")
 	private Film film;
 
-	/**
-	 * Constructeur
-	 * 
+	
+
+	/** Constructeur
+	 * @param personnage
+	 * @param acteur
+	 * @param film
 	 */
-	public Role() {
+	public Role(String personnage, Acteur acteur, Film film) {
 		super();
+		this.personnage = personnage;
+		this.acteur = acteur;
+		this.film = film;
 	}
 
-	
+	/**
+	 * Constructeur pour la liste des Rôles
+	 * 
+	 * @param personnage
+	 */
+	public Role(String personnage) {
+		super();
+		this.personnage = personnage;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", personnage=" + personnage
+				+ ", acteur=" + acteur + ", film=" + film + "]";
+	}
+
 	/**
 	 * Getter
 	 * 
@@ -45,44 +67,54 @@ public class Role {
 		this.personnage = personnage;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the acteur
 	 */
 	public Acteur getActeur() {
 		return acteur;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param acteur the acteur to set
 	 */
 	public void setActeur(Acteur acteur) {
 		this.acteur = acteur;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the film
 	 */
 	public Film getFilm() {
 		return film;
 	}
 
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param film the film to set
 	 */
 	public void setFilm(Film film) {
 		this.film = film;
 	}
 
-
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
 
-
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param id the id to set
 	 */
 	public void setId(int id) {

@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Adresse {
@@ -14,8 +12,7 @@ public class Adresse {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "id_pays")
+	@Column(name = "pays")
 	private String pays;
 	@Column(name = "departement")
 	private String departement;
@@ -42,7 +39,9 @@ public class Adresse {
 		this.batiment = null;
 	}
 
-	/** Constructeur
+	/**
+	 * Constructeur
+	 * 
 	 * @param pays
 	 * @param departement
 	 * @param ville
@@ -169,11 +168,9 @@ public class Adresse {
 
 	@Override
 	public String toString() {
-		return "Adresse [pays=" + this.pays + ", departement=" + departement
-				+ ", ville=" + ville + ", quartier=" + quartier
-				+ ", batiment=" + batiment + "]";
+		return "Adresse [pays=" + pays + ", departement="
+				+ departement + ", ville=" + ville + ", quartier="
+				+ quartier + ", batiment=" + batiment + "]";
 	}
-
-	
 
 }

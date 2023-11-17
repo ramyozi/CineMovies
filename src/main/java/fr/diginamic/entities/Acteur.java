@@ -28,7 +28,7 @@ public class Acteur extends Personne {
 		super();
 	}
 
-	public Acteur rechercheParImdb(List<Acteur> acteurs, String idImdb) {
+	public static Acteur rechercheParImdb(List<Acteur> acteurs, String idImdb) {
 		Acteur acteur = null;
 		for (Acteur a : acteurs) {
 			if (a.getIdImdb().equals(idImdb)) {

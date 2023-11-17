@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
 @Entity
 public class Genre {
 	@Id
@@ -28,7 +29,9 @@ public class Genre {
 		super();
 	}
 
-	/** Constructeur
+	/**
+	 * Constructeur
+	 * 
 	 * @param label
 	 */
 	public Genre(String label) {
@@ -36,7 +39,15 @@ public class Genre {
 		this.label = label;
 	}
 
-
+	public static Genre getGenreByNom(List<Genre> listGenre,
+			String nomGenre) {
+		for (Genre genres : listGenre) {
+			if (genres.getLabel().equals(nomGenre)) {
+				return genres;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Getter
@@ -74,18 +85,18 @@ public class Genre {
 		this.films = films;
 	}
 
-
-
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
 
-
-
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param id the id to set
 	 */
 	public void setId(int id) {

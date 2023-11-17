@@ -39,7 +39,14 @@ public class Langue {
 		this.label = label;
 	}
 
-
+	public static Langue getLangueByNom(List<Langue> listLangue, String nomLangue) {
+		for (Langue langues : listLangue) {
+			if (langues.getLabel().equals(nomLangue)) {
+				return langues;
+			}
+		}
+		return null;
+	}
 
 	/** Getter
 	 * @return the label

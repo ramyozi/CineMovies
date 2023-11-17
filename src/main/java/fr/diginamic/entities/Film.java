@@ -1,5 +1,6 @@
 package fr.diginamic.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -39,6 +40,10 @@ public class Film {
 
 	@ManyToOne
 	@JoinColumn(name = "id_pays")
+	private Adresse lieuDeTournage;
+
+	@ManyToOne
+	@JoinColumn(name = "id_pays")
 	private Pays paysDeSortie;
 
 	@ManyToOne
@@ -50,15 +55,15 @@ public class Film {
 	private List<Genre> genres;
 
 	@OneToMany(mappedBy = "film")
-	private List<Role> roles;
+	private List<Role> roles = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "films_realisateurs", joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "id_realisateur", referencedColumnName = "ID"))
-	private List<Realisateur> realisateurs;
+	private List<Realisateur> realisateurs  = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "films_acteurs_principaux", joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "id_acteur", referencedColumnName = "ID"))
-	private List<Acteur> acteursPrincipaux;
+	private List<Acteur> acteursPrincipaux = new ArrayList<>();
 
 	/**
 	 * Constructeur
@@ -66,6 +71,48 @@ public class Film {
 	 */
 	public Film() {
 		super();
+	}
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param idImdb
+	 * @param nom
+	 * @param annee
+	 * @param note
+	 * @param url
+	 * @param resume
+	 * @param lieuDeTournage
+	 */
+	public Film(String idImdb, String nom, String annee, double note,
+			String url, Adresse lieuDeTournage, String resume) {
+		super();
+		this.idImdb = idImdb;
+		this.nom = nom;
+		this.annee = annee;
+		this.note = note;
+		this.url = url;
+		this.resume = resume;
+		this.lieuDeTournage = lieuDeTournage;
+	}
+	
+	public static Film rechercheParImdb(List<Film> films, String idImdb) {
+		Film film = null;
+		for(Film f : films) {
+			if(f.getIdImdb().equals(idImdb)) {
+				film = f;
+				break;
+			}
+		}
+		return film;
+	}
+
+	@Override
+	public String toString() {
+		return "Film [idImdb=" + idImdb + ", nom=" + nom + ", annee="
+				+ annee + ", lieuDeTournage=" + lieuDeTournage
+				+ ", paysDeSortie=" + paysDeSortie + ", langue=" + langue
+				+ ", genres=" + genres + "]";
 	}
 
 	/**
@@ -300,6 +347,24 @@ public class Film {
 	 */
 	public void setPaysDeSortie(Pays paysDeSortie) {
 		this.paysDeSortie = paysDeSortie;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the lieuDeTournage
+	 */
+	public Adresse getLieuDeTournage() {
+		return lieuDeTournage;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param lieuDeTournage the lieuDeTournage to set
+	 */
+	public void setLieuDeTournage(Adresse lieuDeTournage) {
+		this.lieuDeTournage = lieuDeTournage;
 	}
 
 }
