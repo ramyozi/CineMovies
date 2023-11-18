@@ -16,7 +16,7 @@ public class PaysDAO {
 	        this.entityManager = entityManager;
 	    }
 	    public PaysDAO() {
-	        entityManagerFactory = Persistence.createEntityManagerFactory("CineMovies"); // Remplacez par le nom de votre unité de persistance
+	        entityManagerFactory = Persistence.createEntityManagerFactory("CineMovies");
 	        entityManager = entityManagerFactory.createEntityManager();
 	    }
 

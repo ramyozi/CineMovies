@@ -59,7 +59,7 @@ public class Film {
 
 	@ManyToMany
 	@JoinTable(name = "films_realisateurs", joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "id_realisateur", referencedColumnName = "ID"))
-	private List<Realisateur> realisateurs  = new ArrayList<>();
+	private List<Realisateur> realisateurs = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "films_acteurs_principaux", joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "id_acteur", referencedColumnName = "ID"))
@@ -95,11 +95,33 @@ public class Film {
 		this.resume = resume;
 		this.lieuDeTournage = lieuDeTournage;
 	}
-	
+
+	/**
+	 * Constructs a Film object with specified attributes.
+	 *
+	 * @param idImdb         The IMDB ID of the film
+	 * @param nom            The name of the film
+	 * @param annee          The release year of the film
+	 * @param note           The rating of the film
+	 * @param url            The URL of the film
+	 * @param resume         The summary of the film
+	 * @param lieuDeTournage The filming location of the film
+	 */
+	public Film(String idImdb, String nom, String annee, double note,
+			String url, String resume, Adresse lieuDeTournage) {
+		this.idImdb = idImdb;
+		this.nom = nom;
+		this.annee = annee;
+		this.note = note;
+		this.url = url;
+		this.resume = resume;
+		this.lieuDeTournage = lieuDeTournage;
+	}
+
 	public static Film rechercheParImdb(List<Film> films, String idImdb) {
 		Film film = null;
-		for(Film f : films) {
-			if(f.getIdImdb().equals(idImdb)) {
+		for (Film f : films) {
+			if (f.getIdImdb().equals(idImdb)) {
 				film = f;
 				break;
 			}

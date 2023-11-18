@@ -1,29 +1,36 @@
 package fr.diginamic.entities;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "pays",
+		"departement", "ville", "quartier", "batiment" }) })
 public class Adresse {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "pays")
+	@Column(name = "pays", nullable = true)
 	private String pays;
-	@Column(name = "departement")
+
+	@Column(name = "departement", nullable = true)
 	private String departement;
 
-	@Column(name = "ville")
+	@Column(name = "ville", nullable = true)
 	private String ville;
 
-	@Column(name = "quartier")
+	@Column(name = "quartier", nullable = true)
 	private String quartier;
 
-	@Column(name = "batiment")
+	@Column(name = "batiment", nullable = true)
 	private String batiment;
 
 	/**
@@ -56,6 +63,23 @@ public class Adresse {
 		this.ville = ville;
 		this.quartier = quartier;
 		this.batiment = batiment;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Adresse adresse = (Adresse) o;
+		return Objects.equals(pays, adresse.pays)
+				&& Objects.equals(departement, adresse.departement)
+				&& Objects.equals(ville, adresse.ville);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(pays, departement, ville);
 	}
 
 	/**
@@ -168,9 +192,9 @@ public class Adresse {
 
 	@Override
 	public String toString() {
-		return "Adresse [pays=" + pays + ", departement="
-				+ departement + ", ville=" + ville + ", quartier="
-				+ quartier + ", batiment=" + batiment + "]";
+		return "Adresse [pays=" + pays + ", departement=" + departement
+				+ ", ville=" + ville + ", quartier=" + quartier
+				+ ", batiment=" + batiment + "]";
 	}
 
 }

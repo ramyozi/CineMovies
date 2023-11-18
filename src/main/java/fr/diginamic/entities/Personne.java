@@ -3,6 +3,7 @@ package fr.diginamic.entities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,10 +33,6 @@ public abstract class Personne {
 	@Column(name = "url", unique = true)
 	private String url;
 
-	@ManyToOne
-	@JoinColumn(name = "id_adresse")
-	private Adresse lieuNaissance = new Adresse();
-
 	/**
 	 * Constructeur
 	 * 
@@ -43,8 +40,6 @@ public abstract class Personne {
 	public Personne() {
 		super();
 	}
-
-	
 
 	/**
 	 * Getter
@@ -72,10 +67,10 @@ public abstract class Personne {
 	public Date getDdn() {
 		return ddn;
 	}
-	
+
 	public String getDdnAsString() {
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	    return getDdn() != null ? dateFormat.format(getDdn()) : "N/A";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		return getDdn() != null ? dateFormat.format(getDdn()) : "N/A";
 	}
 
 	/**
@@ -108,51 +103,33 @@ public abstract class Personne {
 	/**
 	 * Getter
 	 * 
-	 * @return the lieuNaissance
-	 */
-	public Adresse getLieuNaissance() {
-		return lieuNaissance;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param lieuNaissance the lieuNaissance to set
-	 */
-	public void setLieuNaissance(Adresse lieuNaissance) {
-		this.lieuNaissance = lieuNaissance;
-	}
-
-
-
-	/** Getter
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
 
-
-
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-
-
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the idImdb
 	 */
 	public String getIdImdb() {
 		return idImdb;
 	}
 
-
-
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param idImdb the idImdb to set
 	 */
 	public void setIdImdb(String idImdb) {
