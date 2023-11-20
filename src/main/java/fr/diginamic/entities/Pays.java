@@ -7,69 +7,83 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "PAYS")
 public class Pays {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	@Column(unique = true)
-	String label;
+	@Column(name = "NOM")
+	String nom;
 
-	@Column(unique = true)
+	@Column(name = "URL")
 	String url;
 
-	/**
-	 * Constructeur
-	 * 
-	 */
-	public Pays() {
-		super();
-	}
+	@OneToMany(mappedBy = "pays")
+	List<Film> films;
 
-	/**
-	 * Constructeur
-	 * 
-	 * @param label
-	 * @param url
-	 */
-	public Pays(String label, String url) {
-		super();
-		this.label = label;
+	public Pays(String nom, String url) {
+		this.nom = nom;
 		this.url = url;
 	}
 
-	public static Pays rechercheParNom(List<Pays> listPays, String nom) {
-		for (Pays p : listPays) {
-			if (p.getLabel().equals(nom)) {
-				return p;
+	public Pays() {
+	}
+
+	@Override
+	public String toString() {
+		return "Pays [id=" + id + ", nom=" + nom + ", url=" + url
+				+ ", films=" + films + "]";
+	}
+
+	public static Pays getPaysByNom(List<Pays> listPays, String nomPays) {
+		for (Pays pays : listPays) {
+			if (pays.getNom().equals(nomPays)) {
+				return pays;
 			}
 		}
 		return null;
 	}
 
-	public static boolean doesPaysAlreadyExist(List<Pays> listPays,
-			String nom) {
-		return listPays.stream().anyMatch(p -> p.getLabel().equals(nom));
-	}
-
 	/**
 	 * Getter
 	 * 
-	 * @return the label
+	 * @return the id
 	 */
-	public String getLabel() {
-		return label;
+	public int getId() {
+		return id;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param label the label to set
+	 * @param id the id to set
 	 */
-	public void setLabel(String label) {
-		this.label = label;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the nom
+	 */
+	public String getNom() {
+		return nom;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	/**
@@ -93,24 +107,19 @@ public class Pays {
 	/**
 	 * Getter
 	 * 
-	 * @return the id
+	 * @return the films
 	 */
-	public int getId() {
-		return id;
+	public List<Film> getFilms() {
+		return films;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param id the id to set
+	 * @param films the films to set
 	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "Pays: nom=" + label + ", url=" + url;
+	public void setFilms(List<Film> films) {
+		this.films = films;
 	}
 
 }

@@ -8,104 +8,64 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "GENRE")
 public class Genre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	int id;
 
-	@Column(name = "label", unique = true)
-	private String label;
+	@Column(name = "NOM")
+	String nom;
 
 	@ManyToMany(mappedBy = "genres")
-	private List<Film> films;
+	List<Film> films;
 
-	/**
-	 * Constructeur
-	 * 
-	 */
 	public Genre() {
-		super();
 	}
 
-	/**
-	 * Constructeur
-	 * 
-	 * @param label
-	 */
-	public Genre(String label) {
-		super();
-		this.label = label;
+	public Genre(String nom) {
+		this.nom = nom;
 	}
 
-	public static Genre getGenreByNom(List<Genre> listGenre,
-			String nomGenre) {
+	@Override
+	public String toString() {
+		return "Genre [id=" + id + ", nom=" + nom + ", films=" + films + "]";
+	}
+
+	public static Genre getGenreByNom(List<Genre> listGenre, String nomGenre) {
 		for (Genre genres : listGenre) {
-			if (genres.getLabel().equals(nomGenre)) {
+			if (genres.getNom().equals(nomGenre)) {
 				return genres;
 			}
 		}
 		return null;
 	}
 
-	/**
-	 * Getter
-	 * 
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param label the label to set
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the films
-	 */
-	public List<Film> getFilms() {
-		return films;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param films the films to set
-	 */
-	public void setFilms(List<Film> films) {
-		this.films = films;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
 
-	/**
-	 * Setter
-	 * 
-	 * @param id the id to set
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	@Override
-	public String toString() {
-		return "Genre [label=" + label + ", films=" + films + "]";
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public List<Film> getFilms() {
+		return films;
+	}
+
+	public void setFilms(List<Film> films) {
+		this.films = films;
 	}
 
 }

@@ -1,25 +1,38 @@
 package fr.diginamic.dao;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
 import fr.diginamic.entities.Acteur;
 
-public class ActeurDAO {
-    private final EntityManager entityManager;
+public class ActeurDao implements Dao<Acteur> {
 
+	@Override
+	public List<Acteur> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public ActeurDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+	@Override
+	public Acteur getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public void createActeur(Acteur acteur) {
-    	
-        entityManager.getTransaction().begin();
-        entityManager.persist(acteur);
-        entityManager.getTransaction().commit();
-    }
+	@Override
+	public void save(Acteur entity) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    public Acteur findById(Long id) {
-        return entityManager.find(Acteur.class, id);
-    }
-}
+	@Override
+	public void update(Acteur entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Acteur entity) {
+		// TODO Auto-generated method stub
+		
+	}
+ }

@@ -1,24 +1,15 @@
 package fr.diginamic;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import fr.diginamic.dao.ActeurDAO;
-import fr.diginamic.dao.AdresseDAO;
-import fr.diginamic.dao.FilmDAO;
-import fr.diginamic.dao.GenreDAO;
-import fr.diginamic.dao.LangueDAO;
-import fr.diginamic.dao.PaysDAO;
-import fr.diginamic.dao.RealisateurDAO;
-import fr.diginamic.dao.RoleDAO;
 import fr.diginamic.entities.Acteur;
 import fr.diginamic.entities.Adresse;
+import fr.diginamic.entities.Film;
 import fr.diginamic.entities.Genre;
 import fr.diginamic.entities.Langue;
 import fr.diginamic.entities.Pays;
@@ -28,82 +19,89 @@ import fr.diginamic.parsers.LecteurData;
 
 public class DataParser {
 
-	public static void main(String[] args)
-			throws IOException, ParseException {
-		String filePathPays = "pays.csv";
-		String filePathRoles = "roles.csv";
-		String filePathFilms = "films.csv";
-		String filePathCastingPrincipale = "castingPrincipal.csv";
-		String filePathFilmRealisateur = "film_realisateurs.csv";
-		String filePathRealisateurs = "realisateurs.csv";
-		String filePathActeurs = "acteurs.csv";
+	public static void main(String[] args) throws IOException {
 
-		LecteurData ld = new LecteurData();
-
-		List<Pays> arrayPays = ld.parsePays(filePathPays);
-		List<Langue> arrayLangues = ld.parseLangues(filePathFilms);
-		List<Genre> arrayGenre = ld.parseGenres(filePathFilms);
-//		List<Adresse> arrayLieuNaissanceRea = ld
-//				.parseAdressesListes(filePathRealisateurs);
-		List<Adresse> arrayLieuNaissanceAct = ld
-				.parseAdressesListes(filePathActeurs);
-//		List<Adresse> arrayLieuTournage = ld
-//				.parseListesLieuTournage(filePathFilms);
-//		List<Adresse> addressList = new ArrayList<>();
-//		addressList.addAll(arrayLieuNaissanceRea);
-//		addressList.addAll(arrayLieuNaissanceAct);
-//		addressList.addAll(arrayLieuTournage);
-//		List<Role> arrayRoles = ld.parseRoles(filePathRoles);
-
-		List<Acteur> arrayActeurs = ld.parseActeurs(filePathActeurs);
-		List<Realisateur> arrayRealisateurs = ld
-				.parseRealisateurs(filePathRealisateurs);
-
-		EntityManagerFactory entityManagerFactory = Persistence
+		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("CineMovies");
-		EntityManager entityManager = entityManagerFactory
-				.createEntityManager();
+		EntityManager em = emf.createEntityManager();
 
-		PaysDAO paysDAO = new PaysDAO(entityManager);
-		LangueDAO langueDAO = new LangueDAO(entityManager);
-		GenreDAO genreDAO = new GenreDAO(entityManager);
-		AdresseDAO adresseDAO = new AdresseDAO(entityManager);
-		RoleDAO roleDAO = new RoleDAO(entityManager);
-		FilmDAO filmDAO = new FilmDAO(entityManager);
-		RealisateurDAO realisateurDAO = new RealisateurDAO(entityManager);
-		ActeurDAO acteurDAO = new ActeurDAO(entityManager);
+		// Chemin vers le fichier csv
+		String pathFileFilm = "films.csv";
+		String pathFilePays = "Pays.csv";
+		String pathFileRealisateur = "realisateurs.csv";
+		String pathFileActeur = "acteurs.csv";
+		String pathFileFilmRealisateur = "film_realisateurs.csv";
+		String pathFileFilmActeur = "castingPrincipal.csv";
+		String pathRole = "roles.csv";
 
-		try {
-			for (Pays pays : arrayPays) {
-				paysDAO.createPays(pays);
-			}
-//
-			for (Langue langue : arrayLangues) {
-				langueDAO.createLangue(langue);
-			}
+		em.getTransaction().begin();
 
-			for (Genre genre : arrayGenre) {
-				genreDAO.createGenre(genre);
-			}
-
-			for (Adresse adresse : arrayLieuNaissanceAct) {
-				adresseDAO.createAdresse(adresse, arrayLieuNaissanceAct);
-			}
-
-			for (Acteur acteur : arrayActeurs) {
-				acteurDAO.createActeur(acteur);
-			}
-
-            // Persist Realisateurs
-            for (Realisateur realisateur : arrayRealisateurs) {
-                realisateurDAO.createRealisateur(realisateur);
-            }
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			entityManager.close();
-			entityManagerFactory.close();
+		LecteurData lectureCsvPays = new LecteurData();
+		List<Pays> arrayPays = lectureCsvPays.parsePays(pathFilePays);
+		for (Pays pays : arrayPays) {
+			em.persist(pays);
 		}
+
+		LecteurData lectureCsvLangue = new LecteurData();
+		List<Langue> arrayLangue = lectureCsvLangue
+				.parseLangues(pathFileFilm);
+		for (Langue langues : arrayLangue) {
+			em.persist(langues);
+		}
+
+		LecteurData lectureCsvGenre = new LecteurData();
+		List<Genre> arrayGenre = lectureCsvGenre.parseGenres(pathFileFilm);
+		for (Genre genres : arrayGenre) {
+			em.persist(genres);
+		}
+
+		LecteurData lectureCsvLieuNaissance = new LecteurData();
+		List<Adresse> arrayLieuNaissance = lectureCsvLieuNaissance
+				.parseListeAdresse(pathFileRealisateur, pathFileActeur);
+		for (Adresse lieuNaissances : arrayLieuNaissance) {
+			em.persist(lieuNaissances);
+		}
+
+		LecteurData lectureCsvFilm = new LecteurData();
+		List<Film> arrayFilm = lectureCsvFilm.parseFilm(pathFileFilm,
+				arrayPays, arrayLangue, arrayGenre);
+		for (Film films : arrayFilm) {
+			em.persist(films);
+		}
+
+		LecteurData lectureCsvActeur = new LecteurData();
+		List<Acteur> arrayActeur = lectureCsvActeur.parseActeur(
+				pathFileActeur, pathFileRealisateur, arrayLieuNaissance);
+		for (Acteur acteurs : arrayActeur) {
+			em.persist(acteurs);
+		}
+
+		LecteurData lectureCsvRealisateur = new LecteurData();
+		List<Realisateur> arrayRealisateur = lectureCsvRealisateur
+				.parseRealisateur(pathFileRealisateur, pathFileActeur,
+						arrayLieuNaissance);
+		for (Realisateur realisateurs : arrayRealisateur) {
+			em.persist(realisateurs);
+		}
+
+		LecteurData lectureCsvFilmActeur = new LecteurData();
+		lectureCsvFilmActeur.parseFilmActeur(pathFileFilmActeur, arrayFilm,
+				arrayActeur);
+
+		LecteurData lectureCsvFilmRealisateur = new LecteurData();
+		lectureCsvFilmRealisateur.parseFilmRealisateur(
+				pathFileFilmRealisateur, arrayFilm, arrayRealisateur);
+
+		LecteurData lectureCsvRole = new LecteurData();
+		List<Role> arrayRole = lectureCsvRole.parseRole(pathRole,
+				arrayFilm, arrayActeur);
+		for (Role roles : arrayRole) {
+			em.persist(roles);
+		}
+		em.getTransaction().commit();
+
+		// Fermeture de la connection a la BDD
+		em.close();
+		emf.close();
 	}
 }

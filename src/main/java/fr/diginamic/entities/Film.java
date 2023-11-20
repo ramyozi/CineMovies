@@ -13,128 +13,109 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "FILM")
 public class Film {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	int id;
 
-	@Column(name = "idImdb", unique = true)
-	private String idImdb;
+	@Column(name = "ID_IMDB")
+	String idImbd;
 
-	@Column(name = "nom")
-	private String nom;
+	@Column(name = "NOM")
+	String nom;
 
-	@Column(name = "annee")
-	private String annee;
+	@Column(name = "ANNEE")
+	String annee;
 
-	@Column(name = "note")
-	private double note;
+	@Column(name = "RATING")
+	String rating;
 
-	@Column(name = "url", unique = true)
-	private String url;
+	@Column(name = "URLD")
+	String url;
 
-	@Column(name = "resume", length = 500)
-	private String resume;
-
-	@ManyToOne
-	@JoinColumn(name = "adresseTournage")
-	private Adresse lieuDeTournage;
-
-	@ManyToOne
-	@JoinColumn(name = "id_pays")
-	private Pays paysDeSortie;
-
-	@ManyToOne
-	@JoinColumn(name = "id_langue")
-	private Langue langue;
+	@Column(name = "LIEU_TOURNAGE")
+	String lieuTournage;
 
 	@ManyToMany
-	@JoinTable(name = "FILM_GENRE", joinColumns = @JoinColumn(name = "ID_FILM", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_GENRE", referencedColumnName = "ID"))
-	private List<Genre> genres;
+	@JoinTable(name = "FILMS_GENRES", joinColumns = @JoinColumn(name = "ID_FILM"), inverseJoinColumns = @JoinColumn(name = "ID_GENRE"))
+	List<Genre> genres;
+
+	@ManyToOne
+	@JoinColumn(name = "LANGUE")
+	Langue langue;
+
+	@Column(name = "RESUME", length = 5000)
+	String resume;
+
+	@ManyToOne
+	@JoinColumn(name = "ID_PAYS")
+	Pays pays;
+
+	@ManyToMany
+	@JoinTable(name = "CASTING_PRINCIPAL", joinColumns = @JoinColumn(name = "ID_FILM"), inverseJoinColumns = @JoinColumn(name = "ID_ACTEUR"))
+	List<Acteur> acteurs = new ArrayList<>();
 
 	@OneToMany(mappedBy = "film")
-	private List<Role> roles = new ArrayList<>();
+	List<Role> roles = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name = "films_realisateurs", joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "id_realisateur", referencedColumnName = "ID"))
-	private List<Realisateur> realisateurs = new ArrayList<>();
+	@JoinTable(name = "FILMS_REALISATEURS", joinColumns = @JoinColumn(name = "ID_FILM"), inverseJoinColumns = @JoinColumn(name = "ID_REALISATEUR"))
+	List<Realisateur> realisateurs = new ArrayList<>();
 
-	@ManyToMany
-	@JoinTable(name = "films_acteurs_principaux", joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "id_acteur", referencedColumnName = "ID"))
-	private List<Acteur> acteursPrincipaux = new ArrayList<>();
-
-	/**
-	 * Constructeur
-	 * 
-	 */
 	public Film() {
-		super();
 	}
 
-	/**
-	 * Constructeur
-	 * 
-	 * @param idImdb
-	 * @param nom
-	 * @param annee
-	 * @param note
-	 * @param url
-	 * @param resume
-	 * @param lieuDeTournage
-	 */
-	public Film(String idImdb, String nom, String annee, double note,
-			String url, Adresse lieuDeTournage, String resume) {
-		super();
-		this.idImdb = idImdb;
+	public Film(String idImbd, String nom, String annee, String rating,
+			String url, String lieuTournage, String resume) {
+		this.idImbd = idImbd;
 		this.nom = nom;
 		this.annee = annee;
-		this.note = note;
+		this.rating = rating;
 		this.url = url;
+		this.lieuTournage = lieuTournage;
 		this.resume = resume;
-		this.lieuDeTournage = lieuDeTournage;
-	}
-
-	/**
-	 * Constructs a Film object with specified attributes.
-	 *
-	 * @param idImdb         The IMDB ID of the film
-	 * @param nom            The name of the film
-	 * @param annee          The release year of the film
-	 * @param note           The rating of the film
-	 * @param url            The URL of the film
-	 * @param resume         The summary of the film
-	 * @param lieuDeTournage The filming location of the film
-	 */
-	public Film(String idImdb, String nom, String annee, double note,
-			String url, String resume, Adresse lieuDeTournage) {
-		this.idImdb = idImdb;
-		this.nom = nom;
-		this.annee = annee;
-		this.note = note;
-		this.url = url;
-		this.resume = resume;
-		this.lieuDeTournage = lieuDeTournage;
-	}
-
-	public static Film rechercheParImdb(List<Film> films, String idImdb) {
-		Film film = null;
-		for (Film f : films) {
-			if (f.getIdImdb().equals(idImdb)) {
-				film = f;
-				break;
-			}
-		}
-		return film;
 	}
 
 	@Override
 	public String toString() {
-		return "Film [idImdb=" + idImdb + ", nom=" + nom + ", annee="
-				+ annee + ", lieuDeTournage=" + lieuDeTournage
-				+ ", paysDeSortie=" + paysDeSortie + ", langue=" + langue
-				+ ", genres=" + genres + "]";
+		return "Film [id=" + id + ", idImbd=" + idImbd + ", nom=" + nom
+				+ ", annee=" + annee + ", rating=" + rating + ", url="
+				+ url + ", lieuTournage=" + lieuTournage + ", genres="
+				+ genres + ", langue=" + langue + ", resume=" + resume
+				+ ", pays=" + pays + ", acteurs=" + acteurs + ", roles="
+				+ roles + ", realisateurs=" + realisateurs + "]";
+	}
+
+	public static Film getFilmByIdbm(List<Film> listFilm, String nomFilm) {
+		for (Film films : listFilm) {
+			if (films.getIdImbd().equals(nomFilm)) {
+				return films;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the idImbd
+	 */
+	public String getIdImbd() {
+		return idImbd;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param idImbd the idImbd to set
+	 */
+	public void setIdImbd(String idImbd) {
+		this.idImbd = idImbd;
 	}
 
 	/**
@@ -176,19 +157,19 @@ public class Film {
 	/**
 	 * Getter
 	 * 
-	 * @return the note
+	 * @return the rating
 	 */
-	public double getNote() {
-		return note;
+	public String getRating() {
+		return rating;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param note the note to set
+	 * @param rating the rating to set
 	 */
-	public void setNote(double note) {
-		this.note = note;
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
 
 	/**
@@ -212,19 +193,37 @@ public class Film {
 	/**
 	 * Getter
 	 * 
-	 * @return the resume
+	 * @return the lieuTournage
 	 */
-	public String getResume() {
-		return resume;
+	public String getLieuTournage() {
+		return lieuTournage;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param resume the resume to set
+	 * @param lieuTournage the lieuTournage to set
 	 */
-	public void setResume(String resume) {
-		this.resume = resume;
+	public void setLieuTournage(String lieuTournage) {
+		this.lieuTournage = lieuTournage;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the genres
+	 */
+	public List<Genre> getGenres() {
+		return genres;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param genres the genres to set
+	 */
+	public void setGenres(List<Genre> genres) {
+		this.genres = genres;
 	}
 
 	/**
@@ -248,19 +247,55 @@ public class Film {
 	/**
 	 * Getter
 	 * 
-	 * @return the genres
+	 * @return the resume
 	 */
-	public List<Genre> getGenres() {
-		return genres;
+	public String getResume() {
+		return resume;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param genres the genres to set
+	 * @param resume the resume to set
 	 */
-	public void setGenres(List<Genre> genres) {
-		this.genres = genres;
+	public void setResume(String resume) {
+		this.resume = resume;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the pays
+	 */
+	public Pays getPays() {
+		return pays;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param pays the pays to set
+	 */
+	public void setPays(Pays pays) {
+		this.pays = pays;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the acteurs
+	 */
+	public List<Acteur> getActeurs() {
+		return acteurs;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param acteurs the acteurs to set
+	 */
+	public void setActeurs(List<Acteur> acteurs) {
+		this.acteurs = acteurs;
 	}
 
 	/**
@@ -299,94 +334,5 @@ public class Film {
 		this.realisateurs = realisateurs;
 	}
 
-	/**
-	 * Getter
-	 * 
-	 * @return the acteursPrincipaux
-	 */
-	public List<Acteur> getActeursPrincipaux() {
-		return acteursPrincipaux;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param acteursPrincipaux the acteursPrincipaux to set
-	 */
-	public void setActeursPrincipaux(List<Acteur> acteursPrincipaux) {
-		this.acteursPrincipaux = acteursPrincipaux;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the idImdb
-	 */
-	public String getIdImdb() {
-		return idImdb;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param idImdb the idImdb to set
-	 */
-	public void setIdImdb(String idImdb) {
-		this.idImdb = idImdb;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the paysDeSortie
-	 */
-	public Pays getPaysDeSortie() {
-		return paysDeSortie;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param paysDeSortie the paysDeSortie to set
-	 */
-	public void setPaysDeSortie(Pays paysDeSortie) {
-		this.paysDeSortie = paysDeSortie;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the lieuDeTournage
-	 */
-	public Adresse getLieuDeTournage() {
-		return lieuDeTournage;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param lieuDeTournage the lieuDeTournage to set
-	 */
-	public void setLieuDeTournage(Adresse lieuDeTournage) {
-		this.lieuDeTournage = lieuDeTournage;
-	}
-
 }
+

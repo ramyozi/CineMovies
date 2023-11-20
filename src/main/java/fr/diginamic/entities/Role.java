@@ -3,68 +3,49 @@ package fr.diginamic.entities;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "ROLE")
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	@Column(name = "personnage")
-	private String personnage;
+	int id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_acteur")
-	private Acteur acteur;
+	@JoinColumn(name = "ID_ACTEUR")
+	Acteur acteur;
 
 	@ManyToOne
-	@JoinColumn(name = "id_film")
-	private Film film;
+	@JoinColumn(name = "ID_FILM")
+	Film film;
 
-	
+	@Column(name = "PERSONNAGE")
+	String personnage;
 
-	/** Constructeur
-	 * @param personnage
-	 * @param acteur
-	 * @param film
-	 */
-	public Role(String personnage, Acteur acteur, Film film) {
-		super();
-		this.personnage = personnage;
-		this.acteur = acteur;
-		this.film = film;
-	}
-
-	/**
-	 * Constructeur pour la liste des Rôles
-	 * 
-	 * @param personnage
-	 */
 	public Role(String personnage) {
-		super();
 		this.personnage = personnage;
 	}
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", personnage=" + personnage
-				+ ", acteur=" + acteur + ", film=" + film + "]";
+		return "Role [id=" + id + ", acteur=" + acteur + ", film=" + film
+				+ ", personnage=" + personnage + "]";
 	}
 
 	/**
 	 * Getter
 	 * 
-	 * @return the personnage
+	 * @return the id
 	 */
-	public String getPersonnage() {
-		return personnage;
+	public int getId() {
+		return id;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param personnage the personnage to set
+	 * @param id the id to set
 	 */
-	public void setPersonnage(String personnage) {
-		this.personnage = personnage;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -106,19 +87,19 @@ public class Role {
 	/**
 	 * Getter
 	 * 
-	 * @return the id
+	 * @return the personnage
 	 */
-	public int getId() {
-		return id;
+	public String getPersonnage() {
+		return personnage;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param id the id to set
+	 * @param personnage the personnage to set
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public void setPersonnage(String personnage) {
+		this.personnage = personnage;
 	}
 
 }

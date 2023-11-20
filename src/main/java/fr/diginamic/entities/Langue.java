@@ -1,6 +1,5 @@
 package fr.diginamic.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,98 +8,93 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "LANGUE")
 public class Langue {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
 
-    @Column(name = "label", unique = true)
-    private String label;
+	@Column(name = "NOM")
+	String nom;
 
-    @OneToMany(mappedBy = "langue")
-    private List<Film> film = new ArrayList<>();
+	@OneToMany(mappedBy = "langue")
+	List<Film> films;
 
-	
-	/** Constructeur
-	 * 
-	 */
-	public Langue() {
-		super();
+	public Langue(String nom) {
+		this.nom = nom;
 	}
 
-
-	/** Constructeur
-	 * @param label
-	 */
-	public Langue(String label) {
-		super();
-		this.label = label;
+	@Override
+	public String toString() {
+		return "Langue [id=" + id + ", nom=" + nom + ", films=" + films
+				+ "]";
 	}
 
-	public static Langue getLangueByNom(List<Langue> listLangue, String nomLangue) {
+	public static Langue getLangueByNom(List<Langue> listLangue,
+			String nomLangue) {
 		for (Langue langues : listLangue) {
-			if (langues.getLabel().equals(nomLangue)) {
+			if (langues.getNom().equals(nomLangue)) {
 				return langues;
 			}
 		}
 		return null;
 	}
 
-	/** Getter
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
-
-	/** Setter
-	 * @param label the label to set
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	/** Getter
-	 * @return the films
-	 */
-	public List<Film> getFilm() {
-		return film;
-	}
-
-	/** Setter
-	 * @param films the films to set
-	 */
-	public void setFilm(List<Film> film) {
-		this.film = film;
-	}
-
-
-
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
 
-
-
-	/** Setter
+	/**
+	 * Setter
+	 * 
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-
-	@Override
-	public String toString() {
-		return "Langue [label=" + label + ", film=" + film + "]";
+	/**
+	 * Getter
+	 * 
+	 * @return the nom
+	 */
+	public String getNom() {
+		return nom;
 	}
-	
-	
-	
+
+	/**
+	 * Setter
+	 * 
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the films
+	 */
+	public List<Film> getFilms() {
+		return films;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param films the films to set
+	 */
+	public void setFilms(List<Film> films) {
+		this.films = films;
+	}
 
 }

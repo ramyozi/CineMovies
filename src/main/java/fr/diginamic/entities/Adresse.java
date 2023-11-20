@@ -1,85 +1,54 @@
 package fr.diginamic.entities;
 
-import java.util.Objects;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "pays",
-		"departement", "ville", "quartier", "batiment" }) })
+@Table(name = "ADRESSE")
 public class Adresse {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	int id;
 
-	@Column(name = "pays", nullable = true)
-	private String pays;
+	@Column(name = "CONTENU")
+	String contenu;
 
-	@Column(name = "departement", nullable = true)
-	private String departement;
+	@OneToMany(mappedBy = "lieuNaissance")
+	List<Realisateur> realisateurs;
 
-	@Column(name = "ville", nullable = true)
-	private String ville;
+	@OneToMany(mappedBy = "lieuNaissance")
+	List<Acteur> acteurs;
 
-	@Column(name = "quartier", nullable = true)
-	private String quartier;
-
-	@Column(name = "batiment", nullable = true)
-	private String batiment;
-
-	/**
-	 * Constructeur
-	 * 
-	 */
-	public Adresse() {
-		super();
-		this.pays = null;
-		this.departement = null;
-		this.ville = null;
-		this.quartier = null;
-		this.batiment = null;
+	public Adresse(String nom) {
+		this.contenu = nom;
 	}
 
-	/**
-	 * Constructeur
-	 * 
-	 * @param pays
-	 * @param departement
-	 * @param ville
-	 * @param quartier
-	 * @param batiment
-	 */
-	public Adresse(String pays, String departement, String ville,
-			String quartier, String batiment) {
-		super();
-		this.pays = pays;
-		this.departement = departement;
-		this.ville = ville;
-		this.quartier = quartier;
-		this.batiment = batiment;
+	public static Adresse getLieuNaissanceByNom(
+			List<Adresse> listLieuNaissance, String contenuAdresse) {
+		for (Adresse lieuNaissances : listLieuNaissance) {
+			if (lieuNaissances.getNom().equals(contenuAdresse)) {
+				return lieuNaissances;
+			}
+		}
+		return null;
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Adresse adresse = (Adresse) o;
-		return Objects.equals(pays, adresse.pays)
-				&& Objects.equals(departement, adresse.departement)
-				&& Objects.equals(ville, adresse.ville);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(pays, departement, ville);
+	public String toString() {
+		return "Adresse [contenu=" + contenu + ", realisateurs="
+				+ realisateurs + ", acteurs=" + acteurs + ", getId()="
+				+ getId() + ", getNom()=" + getNom()
+				+ ", getRealisateurs()=" + getRealisateurs()
+				+ ", getActeurs()=" + getActeurs() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
 	/**
@@ -103,98 +72,55 @@ public class Adresse {
 	/**
 	 * Getter
 	 * 
-	 * @return the ville
+	 * @return the nom
 	 */
-	public String getVille() {
-		return ville;
+	public String getNom() {
+		return contenu;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param ville the ville to set
+	 * @param nom the nom to set
 	 */
-	public void setVille(String ville) {
-		this.ville = ville;
+	public void setNom(String nom) {
+		this.contenu = nom;
 	}
 
 	/**
 	 * Getter
 	 * 
-	 * @return the departement
+	 * @return the realisateurs
 	 */
-	public String getDepartement() {
-		return departement;
+	public List<Realisateur> getRealisateurs() {
+		return realisateurs;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param departement the departement to set
+	 * @param realisateurs the realisateurs to set
 	 */
-	public void setDepartement(String departement) {
-		this.departement = departement;
+	public void setRealisateurs(List<Realisateur> realisateurs) {
+		this.realisateurs = realisateurs;
 	}
 
 	/**
 	 * Getter
 	 * 
-	 * @return the quartier
+	 * @return the acteurs
 	 */
-	public String getQuartier() {
-		return quartier;
+	public List<Acteur> getActeurs() {
+		return acteurs;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param quartier the quartier to set
+	 * @param acteurs the acteurs to set
 	 */
-	public void setQuartier(String quartier) {
-		this.quartier = quartier;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the batiment
-	 */
-	public String getBatiment() {
-		return batiment;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param batiment the batiment to set
-	 */
-	public void setBatiment(String batiment) {
-		this.batiment = batiment;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the pays
-	 */
-	public String getPays() {
-		return pays;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param pays the pays to set
-	 */
-	public void setPays(String pays) {
-		this.pays = pays;
-	}
-
-	@Override
-	public String toString() {
-		return "Adresse [pays=" + pays + ", departement=" + departement
-				+ ", ville=" + ville + ", quartier=" + quartier
-				+ ", batiment=" + batiment + "]";
+	public void setActeurs(List<Acteur> acteurs) {
+		this.acteurs = acteurs;
 	}
 
 }

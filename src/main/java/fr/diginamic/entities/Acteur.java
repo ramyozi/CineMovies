@@ -1,101 +1,170 @@
 package fr.diginamic.entities;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NoResultException;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.TypedQuery;
+import javax.persistence.Table;
 
 @Entity
-public class Acteur extends Personne {
+@Table(name = "ACTEUR")
+public class Acteur {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
+
+	@Column(name = "ID_IMDB")
+	String idImdb;
+
+	@Column(name = "IDENTITE")
+	String identite;
+
+	@Column(name = "DATE_NAISSANCE")
+	LocalDate dateNaissance;
+
+	@Column(name = "URL")
+	String url;
+
+	@ManyToMany
+	@JoinTable(name = "CASTING_PRINCIPAL", joinColumns = @JoinColumn(name = "ID_ACTEUR"), inverseJoinColumns = @JoinColumn(name = "ID_FILM"))
+	List<Film> films = new ArrayList<>();
 
 	@OneToMany(mappedBy = "acteur")
-	private List<Role> listeRole;
+	List<Role> roles;
 
-	@ManyToMany(mappedBy = "acteursPrincipaux")
-	private List<Film> films;
-	@Column(name = "idLieuNaissance")
-	private int idLieuNaissance;
+	@ManyToOne
+	@JoinColumn(name = "ID_LIEU_NAISSANCE")
+	Adresse lieuNaissance;
 
-	/**
-	 * Constructeur
-	 * 
-	 */
-	public Acteur() {
-		super();
+	public Acteur(String idImdb, String identite, LocalDate dateNaissance,
+			String url) {
+		this.idImdb = idImdb;
+		this.identite = identite;
+		this.dateNaissance = dateNaissance;
+		this.url = url;
 	}
 
-	public int findIdAdresseByAdresse(EntityManager entityManager,
-			Adresse adresse) {
-		try {
-			TypedQuery<Adresse> query = entityManager.createQuery(
-					"SELECT a FROM Adresse a WHERE " + "a.pays = :pays "
-							+ "AND a.departement = :departement "
-							+ "AND a.ville = :ville "
-							+ "AND a.quartier = :quartier "
-							+ "AND a.batiment = :batiment",
-					Adresse.class);
-
-			// Set parameters
-			query.setParameter("pays", adresse.getPays());
-			query.setParameter("departement", adresse.getDepartement());
-			query.setParameter("ville", adresse.getVille());
-			query.setParameter("quartier", adresse.getQuartier());
-			query.setParameter("batiment", adresse.getBatiment());
-
-			List<Adresse> resultList = query.getResultList();
-
-			for (Adresse result : resultList) {
-				if (result.getPays().equals(adresse.getPays())
-						&& result.getDepartement()
-								.equals(adresse.getDepartement())
-						&& result.getVille().equals(adresse.getVille())
-						&& result.getQuartier()
-								.equals(adresse.getQuartier())
-						&& result.getBatiment()
-								.equals(adresse.getBatiment())) {
-					return result.getId(); 
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return -1; 
+	public Acteur(String idImdb, String identite) {
+		this.idImdb = idImdb;
+		this.identite = identite;
 	}
 
-	public static Acteur rechercheParImdb(List<Acteur> acteurs,
-			String idImdb) {
-		Acteur acteur = null;
-		for (Acteur a : acteurs) {
-			if (a.getIdImdb().equals(idImdb)) {
-				acteur = a;
-				break;
+	public static Acteur getActeurByIdbm(List<Acteur> listActeur,
+			String nomActeur) {
+		for (Acteur acteurs : listActeur) {
+			if (acteurs.getIdImdb().equals(nomActeur)) {
+				return acteurs;
 			}
 		}
-		return acteur;
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		return "Acteur [id=" + id + ", idImdb=" + idImdb + ", identite="
+				+ identite + ", dateNaissance=" + dateNaissance + ", url="
+				+ url + ", films=" + films + ", roles=" + roles
+				+ ", lieuNaissance=" + lieuNaissance + "]";
 	}
 
 	/**
 	 * Getter
 	 * 
-	 * @return the listeRole
+	 * @return the id
 	 */
-	public List<Role> getListeRole() {
-		return listeRole;
+	public int getId() {
+		return id;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param listeRole the listeRole to set
+	 * @param id the id to set
 	 */
-	public void setListeRole(List<Role> listeRole) {
-		this.listeRole = listeRole;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the idImdb
+	 */
+	public String getIdImdb() {
+		return idImdb;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param idImdb the idImdb to set
+	 */
+	public void setIdImdb(String idImdb) {
+		this.idImdb = idImdb;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the identite
+	 */
+	public String getIdentite() {
+		return identite;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param identite the identite to set
+	 */
+	public void setIdentite(String identite) {
+		this.identite = identite;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the dateNaissance
+	 */
+	public LocalDate getDateNaissance() {
+		return dateNaissance;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param dateNaissance the dateNaissance to set
+	 */
+	public void setDateNaissance(LocalDate dateNaissance) {
+		this.dateNaissance = dateNaissance;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param url the url to set
+	 */
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	/**
@@ -116,34 +185,39 @@ public class Acteur extends Personne {
 		this.films = films;
 	}
 
-	@Override
-	public String toString() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-		String formattedDdn = getDdn() != null
-				? dateFormat.format(getDdn())
-				: "N/A";
-
-		return "Acteur{" + "id=" + getId() + ", idImdb='" + getIdImdb()
-				+ '\'' + ", identite='" + getIdentite() + '\'' + ", ddn="
-				+ formattedDdn + ", url='" + getUrl() + '\''
-				+ ", listeRole=" + listeRole + ", films=" + films + '}';
-	}
-
-	/** Getter
-	 * @return the idLieuNaissance
+	/**
+	 * Getter
+	 * 
+	 * @return the roles
 	 */
-	public int getIdLieuNaissance() {
-		return idLieuNaissance;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	/** Setter
-	 * @param idLieuNaissance the idLieuNaissance to set
+	/**
+	 * Setter
+	 * 
+	 * @param roles the roles to set
 	 */
-	public void setIdLieuNaissance(int idLieuNaissance) {
-		this.idLieuNaissance = idLieuNaissance;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
-	
+	/**
+	 * Getter
+	 * 
+	 * @return the lieuNaissance
+	 */
+	public Adresse getLieuNaissance() {
+		return lieuNaissance;
+	}
 
+	/**
+	 * Setter
+	 * 
+	 * @param lieuNaissance the lieuNaissance to set
+	 */
+	public void setLieuNaissance(Adresse lieuNaissance) {
+		this.lieuNaissance = lieuNaissance;
+	}
 }
