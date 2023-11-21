@@ -13,9 +13,9 @@ public class FilmDao implements Dao<Film> {
 
 	private final EntityManager entityManager;
 
-	
-
-	/** Constructeur
+	/**
+	 * Constructeur
+	 * 
 	 * @param entityManager
 	 */
 	public FilmDao(EntityManager entityManager) {
@@ -226,26 +226,26 @@ public class FilmDao implements Dao<Film> {
 	 * Récupère les films entre deux années spécifiées impliquant un acteur ayant un
 	 * ID IMDb donné.
 	 *
-	 * @param idImdb    L'ID IMDb de l'acteur pour la recherche de films.
+	 * @param nomActeur    L'identite de l'acteur pour la recherche de films.
 	 * @param startYear L'année de début pour la recherche de films.
 	 * @param endYear   L'année de fin pour la recherche de films.
 	 * @return Une liste de films sortis entre les années spécifiées impliquant
 	 *         l'acteur avec l'ID IMDb donné.
 	 */
-	public List<Film> getFilmsBetweenYearsWithActor(String idImdb,
+	public List<Film> getFilmsBetweenYearsWithActorByName(String nomActeur,
 			int startYear, int endYear) {
 		try {
 			String jpql = "SELECT DISTINCT f FROM Film f "
 					+ "JOIN f.acteurs a "
 					+ "WHERE f.annee BETWEEN :startYear AND :endYear "
-					+ "AND a.idImdb = :idImdb";
+					+ "AND lower(a.identite) LIKE lower(:nomActeur)";
 
 			return entityManager.createQuery(jpql, Film.class)
 					.setParameter("startYear", String.valueOf(startYear))
 					.setParameter("endYear", String.valueOf(endYear))
-					.setParameter("idImdb", idImdb).getResultList();
+					.setParameter("nomActeur", "%" + nomActeur + "%")
+					.getResultList();
 		} finally {
-			entityManager.close();
 		}
 	}
 

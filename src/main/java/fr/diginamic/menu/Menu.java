@@ -204,12 +204,12 @@ public class Menu {
 				int endYear = Integer.parseInt(scanner.nextLine());
 
 				System.out
-						.println("Entrez l'ID IMDB de l'acteur/actrice :");
+						.println("Entrez le nom de l'acteur/actrice :");
 				String actorIdImdb = scanner.nextLine();
 
 				Set<Film> filmsBetweenYearsWithActor = new HashSet<>(
-						filmDao.getFilmsBetweenYearsWithActor(actorIdImdb,
-								startYear, endYear));
+				        filmDao.getFilmsBetweenYearsWithActorByName(actorIdImdb, startYear, endYear));
+
 
 				if (!filmsBetweenYearsWithActor.isEmpty()) {
 					System.out.println("Films sortis entre " + startYear
