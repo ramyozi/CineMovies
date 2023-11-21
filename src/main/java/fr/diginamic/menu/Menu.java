@@ -1,7 +1,9 @@
 package fr.diginamic.menu;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -57,10 +59,10 @@ public class Menu {
 			System.out.print("Faites votre choix : ");
 			while (!scanner.hasNextInt()) {
 				System.out.println("Veuillez entrer un nombre.");
-				scanner.next();  
+				scanner.next();
 			}
 			choix = scanner.nextInt();
-			scanner.nextLine();  
+			scanner.nextLine();
 
 			switch (choix) {
 			case 1:
@@ -70,16 +72,17 @@ public class Menu {
 
 				if (actor != null) {
 					System.out.println("Actor: " + actor.getIdentite());
-					List<Film> filmography = actor.getFilms();
+					Set<Film> filmography = new HashSet<>(
+							actor.getFilms());
 
-					if (filmography != null && !filmography.isEmpty()) {
+					if (!filmography.isEmpty()) {
 						System.out.println("Filmography:");
 						for (Film film : filmography) {
 							System.out.println("- " + film.getNom());
 						}
 					} else {
-						System.out
-								.println("No films found for this actor.");
+						System.out.println(
+								"N3o films found for this actor.");
 					}
 				} else {
 					System.out.println("Actor not found.");
