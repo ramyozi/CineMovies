@@ -16,6 +16,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Représente un acteur de film. Cette classe est une entité JPA et est utilisée
+ * pour mapper les données des acteurs dans une base de données.
+ */
 @Entity
 @Table(name = "ACTEUR")
 public class Acteur {
@@ -45,6 +49,14 @@ public class Acteur {
 	@ManyToOne
 	@JoinColumn(name = "ID_LIEU_NAISSANCE")
 	Adresse lieuNaissance;
+
+	/**
+	 * Constructeur
+	 * 
+	 */
+	public Acteur() {
+		super();
+	}
 
 	public Acteur(String idImdb, String identite, LocalDate dateNaissance,
 			String url) {

@@ -17,8 +17,17 @@ import fr.diginamic.entities.Realisateur;
 import fr.diginamic.entities.Role;
 import fr.diginamic.parsers.LecteurData;
 
+/**
+ * Cette classe est responsable du parsing des données depuis des fichiers CSV
+ * et de leur stockage dans une base de données.
+ */
 public class DataParser {
-
+	/**
+	 * Méthode principale exécutée pour parser et sauvegarder les données.
+	 * 
+	 * @param args Arguments de la ligne de commande (non utilisés ici)
+	 * @throws IOException En cas d'erreur lors de la lecture des fichiers
+	 */
 	public static void main(String[] args) throws IOException {
 
 		EntityManagerFactory emf = Persistence

@@ -14,9 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-
 // Non utilisée
-
+/**
+ * Cette classe abstraite définit les attributs et les méthodes communs pour les
+ * entités "Personne". Elle sert de modèle pour les acteurs, réalisateurs, etc.
+ */
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Personne {
@@ -70,7 +72,11 @@ public abstract class Personne {
 	public Date getDdn() {
 		return ddn;
 	}
-
+	/**
+     * Récupère la date de naissance de la personne sous forme de chaîne de caractères formatée.
+     * 
+     * @return La date de naissance de la personne sous forme de chaîne formatée ou "N/A" si non disponible
+     */
 	public String getDdnAsString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		return getDdn() != null ? dateFormat.format(getDdn()) : "N/A";

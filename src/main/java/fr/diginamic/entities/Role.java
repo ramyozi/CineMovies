@@ -2,6 +2,9 @@ package fr.diginamic.entities;
 
 import javax.persistence.*;
 
+/**
+ * Classe représentant le rôle d'un acteur dans un film.
+ */
 @Entity
 @Table(name = "ROLE")
 public class Role {
@@ -19,6 +22,14 @@ public class Role {
 
 	@Column(name = "PERSONNAGE")
 	String personnage;
+
+	/**
+	 * Constructeur
+	 * 
+	 */
+	public Role() {
+		super();
+	}
 
 	public Role(String personnage) {
 		this.personnage = personnage;

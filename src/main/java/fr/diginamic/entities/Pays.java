@@ -9,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+/**
+ * Représente un pays de production de film.
+ * Cette classe est une entité JPA utilisée pour mapper les pays de production dans une base de données.
+ */
 @Entity
 @Table(name = "PAYS")
 public class Pays {
@@ -26,21 +29,38 @@ public class Pays {
 
 	@OneToMany(mappedBy = "pays")
 	List<Film> films;
-
+	 /**
+     * Constructeur de Pays prenant en paramètre le nom et l'URL du pays.
+     *
+     * @param nom Le nom du pays.
+     * @param url L'URL du pays.
+     */
 	public Pays(String nom, String url) {
 		this.nom = nom;
 		this.url = url;
 	}
-
+	/**
+     * Constructeur par défaut de Pays.
+     */
 	public Pays() {
 	}
-
+	/**
+     * Méthode toString pour obtenir une représentation textuelle de l'objet Pays.
+     *
+     * @return Une chaîne de caractères représentant l'objet Pays.
+     */
 	@Override
 	public String toString() {
 		return "Pays [id=" + id + ", nom=" + nom + ", url=" + url
 				+ ", films=" + films + "]";
 	}
-
+	/**
+     * Récupère un objet Pays à partir de sa liste et de son nom.
+     *
+     * @param listPays La liste des pays parmi lesquels rechercher.
+     * @param nomPays  Le nom du pays à trouver.
+     * @return         L'objet Pays correspondant au nom spécifié, ou null si non trouvé.
+     */
 	public static Pays getPaysByNom(List<Pays> listPays, String nomPays) {
 		for (Pays pays : listPays) {
 			if (pays.getNom().equals(nomPays)) {

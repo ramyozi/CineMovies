@@ -15,6 +15,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Classe représentant un réalisateur de films.
+ */
+
 @Entity
 @Table(name = "REALISATEUR")
 public class Realisateur {
@@ -43,6 +47,33 @@ public class Realisateur {
 	@JoinColumn(name = "ID_LIEU_NAISSANCE")
 	Adresse lieuNaissance;
 
+	/**
+	 * Constructeur
+	 * 
+	 */
+	public Realisateur() {
+		super();
+	}
+
+	/**
+	 * Constructeur de Realisateur avec ID IMDB et identité.
+	 * 
+	 * @param idImdb   L'ID IMDB du réalisateur.
+	 * @param identite L'identité du réalisateur.
+	 */
+	public Realisateur(String idImdb, String identite) {
+		this.idImdb = idImdb;
+		this.identite = identite;
+	}
+
+	/**
+	 * Constructeur de Realisateur avec toutes les informations.
+	 * 
+	 * @param idImdb        L'ID IMDB du réalisateur.
+	 * @param identite      L'identité du réalisateur.
+	 * @param dateNaissance La date de naissance du réalisateur.
+	 * @param url           L'URL associée au réalisateur.
+	 */
 	public Realisateur(String idImdb, String identite,
 			LocalDate dateNaissance, String url) {
 		this.idImdb = idImdb;
@@ -51,11 +82,11 @@ public class Realisateur {
 		this.url = url;
 	}
 
-	public Realisateur(String idImdb, String identite) {
-		this.idImdb = idImdb;
-		this.identite = identite;
-	}
-
+	/**
+	 * Renvoie une représentation textuelle de l'objet Realisateur.
+	 * 
+	 * @return Une chaîne de caractères représentant l'objet Realisateur.
+	 */
 	@Override
 	public String toString() {
 		return "Realisateur [id=" + id + ", idImdb=" + idImdb
@@ -64,6 +95,14 @@ public class Realisateur {
 				+ ", lieuNaissance=" + lieuNaissance + "]";
 	}
 
+	/**
+	 * Recherche un réalisateur dans une liste en fonction de son ID IMDB.
+	 * 
+	 * @param listRealisateur La liste des réalisateurs.
+	 * @param idImdb          L'ID IMDB du réalisateur recherché.
+	 * @return Le réalisateur correspondant à l'ID IMDB spécifié, ou null s'il n'est
+	 *         pas trouvé.
+	 */
 	public static Realisateur getRealisateurByIdbm(
 			List<Realisateur> listRealisateur, String nomRealisateur) {
 		for (Realisateur realisateurs : listRealisateur) {

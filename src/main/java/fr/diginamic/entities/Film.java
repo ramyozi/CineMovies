@@ -15,6 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Représente un film. Cette classe est une entité JPA utilisée pour mapper les
+ * données des films dans une base de données.
+ */
 @Entity
 @Table(name = "FILM")
 public class Film {
@@ -334,5 +338,22 @@ public class Film {
 		this.realisateurs = realisateurs;
 	}
 
-}
+	/**
+	 * Getter
+	 * 
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
 
+	/**
+	 * Setter
+	 * 
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+}

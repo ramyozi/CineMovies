@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Représente une adresse. Cette classe est une entité JPA utilisée pour mapper
+ * les données des adresses dans une base de données.
+ */
 @Entity
 @Table(name = "ADRESSE")
 public class Adresse {
@@ -25,6 +29,14 @@ public class Adresse {
 
 	@OneToMany(mappedBy = "lieuNaissance")
 	List<Acteur> acteurs;
+
+	/**
+	 * Constructeur
+	 * 
+	 */
+	public Adresse() {
+		super();
+	}
 
 	public Adresse(String nom) {
 		this.contenu = nom;

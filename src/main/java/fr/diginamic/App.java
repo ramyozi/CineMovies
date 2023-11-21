@@ -1,33 +1,21 @@
 package fr.diginamic;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import fr.diginamic.menu.Menu;
 
+/**
+ * Classe principale de l'application, point d'entrée du programme. Crée une
+ * instance de la classe Menu pour lancer le menu interactif.
+ */
 public class App {
-
+	/**
+	 * Point d'entrée du programme. Instancie la classe Menu et lance le menu
+	 * interactif.
+	 *
+	 * @param args Les arguments en ligne de commande (non utilisés dans cette
+	 *             application).
+	 */
 	public static void main(String[] args) {
-
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("CineMovies");
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction transaction = em.getTransaction();
-
-		transaction.begin();
-
-		try {
-
-		} catch (Exception e) {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-			e.printStackTrace();
-			System.err.println("Error persisting data: " + e.getMessage());
-		} finally {
-			em.close();
-			emf.close();
-		}
+		Menu m = new Menu();
+		m.afficherMenu();
 	}
-
 }

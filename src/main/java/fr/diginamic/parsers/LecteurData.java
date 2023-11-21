@@ -19,6 +19,10 @@ import fr.diginamic.entities.Pays;
 import fr.diginamic.entities.Realisateur;
 import fr.diginamic.entities.Role;
 
+/**
+ * Cette classe fournit des méthodes pour parser des fichiers CSV et générer des
+ * objets associés à des films, acteurs, réalisateurs, pays, genres, etc.
+ */
 public class LecteurData {
 
 	List<Adresse> arrayLieuNaissanceActeur = new ArrayList<>();
@@ -387,10 +391,10 @@ public class LecteurData {
 	/**
 	 * Parse le fichier des films pour créer une liste de films avec leurs détails.
 	 * 
-	 * @param filename1 Le chemin vers le fichier des films à parser
-	 * @param ListePays     La liste des pays pour attribuer les pays aux films
-	 * @param ListeLangues   La liste des langues pour attribuer les langues aux films
-	 * @param ListeGenres    La liste des genres pour attribuer les genres aux films
+	 * @param filename1    Le chemin vers le fichier des films à parser
+	 * @param ListePays    La liste des pays pour attribuer les pays aux films
+	 * @param ListeLangues La liste des langues pour attribuer les langues aux films
+	 * @param ListeGenres  La liste des genres pour attribuer les genres aux films
 	 * @return Une liste de films avec leurs détails
 	 * @throws RuntimeException Si le fichier .csv des films n'est pas trouvé ou une
 	 *                          erreur survient lors de la lecture
@@ -471,8 +475,8 @@ public class LecteurData {
 	/**
 	 * Associe les acteurs aux films en fonction des informations du fichier.
 	 * 
-	 * @param filename   Le chemin vers le fichier pour associer les acteurs aux
-	 *                   films
+	 * @param filename     Le chemin vers le fichier pour associer les acteurs aux
+	 *                     films
 	 * @param ListeFilms   La liste des films à compléter avec les acteurs
 	 * @param ListeActeurs La liste des acteurs à associer aux films
 	 * @throws RuntimeException Si le fichier .csv n'est pas trouvé ou une erreur
@@ -498,7 +502,8 @@ public class LecteurData {
 				String idIdbmFilm = tokens[0];
 				String idIdbmActeur = tokens[1];
 
-				Film actuelFilm = Film.getFilmByIdbm(ListeFilms, idIdbmFilm);
+				Film actuelFilm = Film.getFilmByIdbm(ListeFilms,
+						idIdbmFilm);
 
 				Acteur actuelActeur = Acteur.getActeurByIdbm(ListeActeurs,
 						idIdbmActeur);
@@ -518,8 +523,8 @@ public class LecteurData {
 	/**
 	 * Associe les réalisateurs aux films en fonction des informations du fichier.
 	 * 
-	 * @param filename        Le chemin vers le fichier pour associer les
-	 *                        réalisateurs aux films
+	 * @param filename         Le chemin vers le fichier pour associer les
+	 *                         réalisateurs aux films
 	 * @param ListeFilm        La liste des films à compléter avec les réalisateurs
 	 * @param ListeRealisateur La liste des réalisateurs à associer aux films
 	 * @throws RuntimeException Si le fichier .csv n'est pas trouvé ou une erreur
@@ -545,7 +550,8 @@ public class LecteurData {
 				String idIdbmFilm = tokens[0];
 				String idIdbmRealisateur = tokens[1];
 
-				Film actuelFilm = Film.getFilmByIdbm(ListeFilm, idIdbmFilm);
+				Film actuelFilm = Film.getFilmByIdbm(ListeFilm,
+						idIdbmFilm);
 
 				Realisateur actuelRealisateur = Realisateur
 						.getRealisateurByIdbm(ListeRealisateur,
@@ -568,8 +574,8 @@ public class LecteurData {
 	 * Parse le fichier pour créer une liste de rôles et les associe aux acteurs et
 	 * aux films correspondants.
 	 * 
-	 * @param filename   Le chemin vers le fichier pour obtenir les rôles des
-	 *                   acteurs dans les films
+	 * @param filename     Le chemin vers le fichier pour obtenir les rôles des
+	 *                     acteurs dans les films
 	 * @param ListeFilms   La liste des films pour associer les rôles
 	 * @param ListeActeurs La liste des acteurs pour associer les rôles
 	 * @return Une liste de rôles associant des acteurs à des films avec leur
@@ -601,7 +607,8 @@ public class LecteurData {
 				String idIdmbActeur = tokens[1];
 				String personnage = tokens[2];
 
-				Film actuelFilm = Film.getFilmByIdbm(ListeFilms, idIdmbFilm);
+				Film actuelFilm = Film.getFilmByIdbm(ListeFilms,
+						idIdmbFilm);
 				Acteur actuelActeur = Acteur.getActeurByIdbm(ListeActeurs,
 						idIdmbActeur);
 
