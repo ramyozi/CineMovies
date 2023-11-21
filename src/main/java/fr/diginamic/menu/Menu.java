@@ -95,7 +95,7 @@ public class Menu {
 
 				if (film != null) {
 					System.out.println("Film: " + film.getNom());
-					List<Acteur> casting = film.getActeurs();
+					Set<Acteur> casting = new HashSet<>(film.getActeurs());
 
 					if (casting != null && !casting.isEmpty()) {
 						System.out.println("Casting:");
@@ -116,9 +116,8 @@ public class Menu {
 				String debutAnnee = scanner.nextLine();
 				System.out.print("Entrez l'année de fin : ");
 				String finAnnee = scanner.nextLine();
-
-				List<Film> filmsBetweenYears = filmDao
-						.getFilmsBetweenYears(debutAnnee, finAnnee);
+				Set<Film> filmsBetweenYears = new HashSet<>(filmDao
+						.getFilmsBetweenYears(debutAnnee, finAnnee));
 
 				if (filmsBetweenYears != null
 						&& !filmsBetweenYears.isEmpty()) {
@@ -153,9 +152,9 @@ public class Menu {
 					System.out.println("Acteur/Actrice non trouvé(e).");
 					break;
 				}
+				Set<Film> filmsCommuns = new HashSet<>(filmDao
+						.getFilmsCommonToActorsByRoles(acteur1, acteur2));
 
-				List<Film> filmsCommuns = filmDao
-						.getFilmsCommonToActorsByRoles(acteur1, acteur2);
 				if (filmsCommuns.isEmpty()) {
 					System.out.println(
 							"Aucun film en commun trouvé entre ces acteurs/actrices.");
@@ -178,8 +177,10 @@ public class Menu {
 				Film film2 = filmDao.getByName(nomFilm2);
 
 				if (film1 != null && film2 != null) {
-					List<Acteur> commonActors = filmDao
-							.getActorsCommonToFilms(film1, film2);
+
+					Set<Acteur> commonActors = new HashSet<>(
+							filmDao.getActorsCommonToFilms(film1, film2));
+
 					if (!commonActors.isEmpty()) {
 						System.out.println("Acteurs communs aux films "
 								+ nomFilm1 + " et " + nomFilm2 + ":");
@@ -206,9 +207,9 @@ public class Menu {
 						.println("Entrez l'ID IMDB de l'acteur/actrice :");
 				String actorIdImdb = scanner.nextLine();
 
-				List<Film> filmsBetweenYearsWithActor = filmDao
-						.getFilmsBetweenYearsWithActor(actorIdImdb,
-								startYear, endYear);
+				Set<Film> filmsBetweenYearsWithActor = new HashSet<>(
+						filmDao.getFilmsBetweenYearsWithActor(actorIdImdb,
+								startYear, endYear));
 
 				if (!filmsBetweenYearsWithActor.isEmpty()) {
 					System.out.println("Films sortis entre " + startYear
